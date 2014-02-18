@@ -113,8 +113,8 @@ Rcon.prototype.setTimeout = function(timeout, callback) {
 };
 
 Rcon.prototype._udpSocketOnData = function(data) {
-  var a = data.readUInt32LE(0);
-  if (a == 0xffffffff || a == 0xfffffffe) {
+  var header = data.readInt32LE(0);
+  if (header == -1 || header == -2) {
     var str = data.toString("utf-8", 4);
     var tokens = str.split(" ");
     if (tokens.length == 3 && tokens[0] == "challenge" && tokens[1] == "rcon") {
